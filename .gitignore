@@ -1,0 +1,32 @@
+.idea
+*.iml
+target/
+
+# Compiled class file
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+lodgement/sonar-project.properties
+lodgement/.scannerwork/
+lodgement/performance.csv
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Salesforce API Authentication
+sf-enterpriseplatform-deploymentautomation-dev-key.pem
