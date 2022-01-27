@@ -1,10 +1,10 @@
 Feature: file operations
 
   Background:
-    * def textPath = "classpath:projects/snippets/resources/test.txt"
-    * def csvPath = "classpath:projects/snippets/resources/test.csv"
-    * def filePath = "file:projects/snippets/resources/test.csv"
-    * def ddt_data = "classpath:projects/snippets/resources/test.json"
+    * def textPath = "classpath:projects/fileOps/resources/test.txt"
+    * def csvPath = "classpath:projects/fileOps/resources/test.csv"
+    * def filePath = "file:projects/fileOps/resources/test.csv"
+    * def ddt_data = "classpath:projects/fileOps/resources/test.json"
     * def schemas =
 """
 {
@@ -13,18 +13,31 @@ Feature: file operations
 }
 """
 
-  @test-01-fileOps
+  @test-01-reading-text
   Scenario: reading a text file
     * def testData = read(textPath)
-    * print testData
+    * print "=== printing data from txt",testData
 
+  @test-02-reading-csv
   Scenario: reading a csv file - (karate automatically convert csv to json)
     * def testData = read(csvPath)
-    * print testData
+    * print "=== printing data from csv",  testData
+    * print "=== Number arrays in the json response",  testData.length
 
+    # check if array is present
+    And assert testData != null
+    # check array length
+    And assert testData.length == 3
+    And assert testData.length != 1
+
+    # match
+    * match testData[1].firstName == "Steve"
+    * match each testData[*].email == "#present"
+
+  @test-03-reading-csv
   Scenario Outline: reading from a csv file and print from each line
     * def testData = read(csvPath)
-    * print <testCase>
+    * print "=== printing test case elements:", <testCase>
     * print <testCase>[0].firstName
     * print <testCase>[1].lastName
     * print <testCase>[1].username
@@ -33,13 +46,15 @@ Feature: file operations
       | testCase |
       | testData |
 
+  @test-04-reading-csv
   Scenario: trying  file: prefix, instead of classpath: it supports absolute or even relative paths from current working directory.
     * def testData = read(csvPath)
-    * print testData
+    * print "=== printing data from csv using file:",  testData
 
+  @test-05-reading-csv
   Scenario Outline: DDT feed from json - print firstName from each test case
     * def testData = read(ddt_data)
-    * print <testCase>.firstName
+    * print "=== printing data traverse thru the Examples table:", <testCase>.firstName
 
     Examples:
       | testCase             |
@@ -47,6 +62,7 @@ Feature: file operations
       | testData.testCase_02 |
       | testData.testCase_03 |
 
+  @test-06-reading-csv-and-match
   Scenario: best-way-to-do-karate-match-using-and-contains-using-generic-script
     * def env = 'v1'
     * def response = { "firstName": "Mike",  "lastName": "Pos"}
