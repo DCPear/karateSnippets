@@ -82,3 +82,7 @@ Feature: file operations
     * def response = read(csvPath)
     * match response[0] contains karate.filterKeys(schemas[env], response)
     * match each response[*] contains karate.filterKeys(schemas[env], response)
+
+  @test-07-file-paths
+  Scenario: traverse through folders
+    * def txt = read('/resources/test.txt')
