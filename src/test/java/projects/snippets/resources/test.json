@@ -1,0 +1,20 @@
+{
+  "testCase_01": {
+    "firstName": "Mike",
+    "lastName": "",
+    "username": "Posner",
+    "email": "mike1234@gmail.com"
+  },
+  "testCase_02": {
+    "firstName": "Steve",
+    "lastName": "Aoki",
+    "username": "steveyy",
+    "email": "steve556677@gmail.com"
+  },
+  "testCase_03": {
+    "firstName": "Afro",
+    "lastName": "Jack",
+    "username": "afroJack",
+    "email": "afro998877@gmail.com"
+  }
+}
