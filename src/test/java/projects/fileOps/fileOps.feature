@@ -86,3 +86,5 @@ Feature: file operations
   @test-07-file-paths
   Scenario: traverse through folders
     * def txt = read('/resources/test.txt')
+
+    # Reading: https://github.com/intuit/karate#reading-files
