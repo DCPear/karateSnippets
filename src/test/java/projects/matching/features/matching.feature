@@ -201,7 +201,7 @@ Feature: matching
 # when validation logic is an 'equality' check, an embedded expression works better
     Then match each json.hotels contains { totalPrice: '#(_$.roomInformation[0].roomPrice)' }
 
-  @test-10-schema-validation
+  @test-11-schema-validation
   Scenario: schema-validation
     * def foo = ['bar', 'baz']
 
@@ -449,7 +449,9 @@ Feature: matching
 
   @test-15-special-variable
   Scenario: special variables
-  * def response = { name: 'Billie' }
+    * def response = { name: 'Billie' }
+    * if (response.name .includes('Billie')) karate.abort()
+
     # the three lines below are equivalent
     Then match response $ == { name: 'Billie' }
     Then match response == { name: 'Billie' }
@@ -472,3 +474,43 @@ Feature: matching
     Then match response/cat/name == 'Billie'
     Then match /cat/name == 'Billie'
 
+    * def response = { name: 'Sammie' }
+    * if (response.name .includes('Billie')) karate.abort()
+
+
+  @test-16-response-status
+  Scenario: special variables
+    * def responseStatus = 200
+# check if the response status is either of two values
+    Then assert responseStatus == 200 || responseStatus == 204
+    * match [200, 201, 204] contains responseStatus
+
+    # this may be sufficient to check a range of values
+    * assert responseStatus >= 200
+    * assert responseStatus < 300
+
+# but using karate.range() you can even do this !
+    * match karate.range(200, 299) contains responseStatus
+
+  @test-17-parsing-json-xml-or-string
+  Scenario: parsing json, xml or string (doesn't work)
+#    * def temp = karate.fromString('{"foo": "bar" }')
+#    * assert temp.json
+#    * match (temp.value) =={"foo": "bar"}
+#
+#    * def temp = karate.fromString('<foo>bar</foo>')
+#    * assert temp.xml
+#    * match temp.value == <foo>bar</foo>
+#    * def temp = karate.fromString('random text')
+#    * assert temp.string
+#    * match (temp.value) =='random text'
+
+  @test-18-inspecting-an-arbitrary-object
+  Scenario: inspecting-an-arbitrary-object (doesn't work)
+#    * def foo = {foo:'bar'}
+#    * def temp = karate.fromObject(foo)
+#    * print temp
+#    * assert temp.mapLike
+#    * def foo = ['foo', 'bar']
+#    * def temp = karate.fromObject(foo)
+#    * assert temp.listLike
