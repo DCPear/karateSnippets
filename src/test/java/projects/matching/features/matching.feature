@@ -1,5 +1,8 @@
 Feature: matching
 
+  Background:
+    * def codeUtils = Java.type("utilities.common.CodeUtils")
+
   @test-01-convert
   Scenario: convert string number to int number
     # method 1. multiply string with 1
@@ -41,7 +44,16 @@ Feature: matching
     * def res = karate.match("each foo == '#number'")
     * match res == {pass: true, message:null}
 
-  @test-03-self-validation
+  @test-03-advanced-match
+  Scenario: advanced match in js
+    * def foo = "real"
+    * def bar = "real"
+    * def res = karate.match("foo == bar")
+    * print res
+    * def found =  res.pass
+    * match found == true
+
+  @test-04-self-validation
   Scenario: self validation
     * def date = { month: 3 }
     * match date == { month: '#? _ > 0 && _ < 13' }
@@ -514,3 +526,14 @@ Feature: matching
 #    * def foo = ['foo', 'bar']
 #    * def temp = karate.fromObject(foo)
 #    * assert temp.listLike
+
+  @test-19-encode-passwords
+  Scenario: iencode-passwords
+    * def user = "V2hvSWFt"
+    * def pwd = "VGhpc2lzTUU="
+    * def username = codeUtils.base64Decode(user)
+    * def password = codeUtils.base64Decode(pwd)
+
+    * match username == "WhoIam"
+    * match password == "ThisisME"
+    * print "values", username, password
